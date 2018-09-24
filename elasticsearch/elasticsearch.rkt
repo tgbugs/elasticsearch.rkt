@@ -203,7 +203,7 @@
   (when (and (false? index) doctype)
     (error "index can't be #f for given document type"))
   (define path (build-path-string index doctype "_count"))
-  (hash-ref (do-request 'GET path body) 'count))
+  (hash-ref (do-request c 'GET path body) 'count))
 
 ; total-hits : Result -> PosInt
 ; Return total number of result for our query
