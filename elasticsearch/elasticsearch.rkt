@@ -8,7 +8,8 @@
 
 (require "utils.rkt")
 
-(provide client
+(provide analyze
+         client
          client?
          DEFAULT-CLIENT
          count
@@ -190,6 +191,13 @@
   (define path (build-path-string index doctype "_search"))
   (do-request 
     c 'POST path (hash 'query (hash 'query_string (hash 'query q)))))
+
+; analyze : client? string? string? jsexpr? -> jsexpr?
+(define (analyze c body #:index [index #f] #:doctype [doctype #f])
+  (when (and (false? index) doctype)
+    (error "index can't be #f for given document type"))
+  (define path (build-path-string index doctype "_analyze"))
+  (do-request c 'POST path body))
 
 ; search : client? string? string? jsexpr? -> jsexpr?
 (define (search c body #:index [index #f] #:doctype [doctype #f])
